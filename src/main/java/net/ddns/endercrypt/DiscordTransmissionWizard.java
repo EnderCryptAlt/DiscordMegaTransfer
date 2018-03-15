@@ -26,7 +26,7 @@ public class DiscordTransmissionWizard
 		// credits
 		JOptionPane.showMessageDialog(null, ""
 				+ "Created by EnderCrypt (Magnus Gunnarsson)\n"
-				+ "Version 1\n"
+				+ "Version 1.1\n"
 				+ "March 2018\n", DiscordTransmissionWizard.class.getSimpleName(), JOptionPane.INFORMATION_MESSAGE);
 
 		// discord token

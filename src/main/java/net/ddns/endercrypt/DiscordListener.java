@@ -33,6 +33,7 @@ import net.dv8tion.jda.core.entities.PrivateChannel;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.priv.PrivateMessageReceivedEvent;
 import net.dv8tion.jda.core.events.message.priv.react.PrivateMessageReactionAddEvent;
+import net.dv8tion.jda.core.events.message.priv.react.PrivateMessageReactionRemoveEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 import net.lingala.zip4j.core.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
@@ -280,5 +281,60 @@ public class DiscordListener extends ListenerAdapter
 	{
 		ZipFile zipFile = new ZipFile(inputZipFile);
 		zipFile.extractAll(outputDirectory.toString());
+	}
+
+	@Override
+	public void onPrivateMessageReactionRemove(PrivateMessageReactionRemoveEvent event)
+	{
+		User user = event.getUser();
+		boolean isMe = event.getJDA().getSelfUser().equals(user);
+		long messageId = event.getMessageIdLong();
+		PrivateChannel channel = event.getChannel();
+		String reactionString = event.getReactionEmote().getName();
+
+		if (isMe && reactionString.equals(fileFolderEmoji))
+		{
+			Message message = channel.getHistoryAround(messageId, 1).complete().getMessageById(messageId);
+			String rawMessage = message.getContentRaw();
+			if (rawMessage.startsWith(headerString) && message.getAuthor().equals(event.getJDA().getSelfUser()))
+			{
+				int firstNewlineIndex = rawMessage.indexOf("\n");
+				String base64 = rawMessage.substring(headerString.length(), firstNewlineIndex);
+				System.out.println(base64);
+				String rawJson = new String(Base64.getDecoder().decode(base64));
+				System.out.println("delete based on json: " + rawJson);
+				JsonObject jsonRoot = gson.fromJson(rawJson, JsonObject.class);
+				deleteControlMessage(channel, jsonRoot);
+				message.delete().complete();
+			}
+		}
+	}
+
+	private static void deleteControlMessage(PrivateChannel channel, JsonObject jsonRoot)
+	{
+		// check version
+		final int expectedVersion = 1;
+		int version = jsonRoot.get("version").getAsInt();
+		System.out.println("version: " + version);
+		if (version != expectedVersion)
+		{
+			Util.failure("wrong version", "received version " + version + " but you are running " + expectedVersion);
+			return;
+		}
+
+		// pieces array
+		JsonArray jsonPieces = jsonRoot.get("pieces").getAsJsonArray();
+		Stream<JsonElement> piecesStream = StreamSupport.stream(Spliterators.spliteratorUnknownSize(jsonPieces.iterator(), Spliterator.ORDERED), false);
+		List<Message> messageList = piecesStream.mapToLong(e -> e.getAsLong()).mapToObj(id -> channel.getHistoryAround(id, 1).complete().getMessageById(id)).collect(Collectors.toList());
+
+		// delete pieces
+		for (Message message : messageList)
+		{
+			message.delete().queue(v -> {
+				// ignore
+			}, ex -> {
+				ex.printStackTrace();
+			});
+		}
 	}
 }
