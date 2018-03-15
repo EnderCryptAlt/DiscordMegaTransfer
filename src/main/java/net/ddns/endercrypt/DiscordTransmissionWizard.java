@@ -26,8 +26,9 @@ public class DiscordTransmissionWizard
 		// credits
 		JOptionPane.showMessageDialog(null, ""
 				+ "Created by EnderCrypt (Magnus Gunnarsson)\n"
-				+ "Version 1.1\n"
-				+ "March 2018\n", DiscordTransmissionWizard.class.getSimpleName(), JOptionPane.INFORMATION_MESSAGE);
+				+ "Version 1.2\n"
+				+ "March 2018\n"
+				+ "Open Source: https://github.com/EnderCryptAlt/DiscordMegaTransfer", DiscordTransmissionWizard.class.getSimpleName(), JOptionPane.INFORMATION_MESSAGE);
 
 		// discord token
 		String discordToken = null;
@@ -42,13 +43,16 @@ public class DiscordTransmissionWizard
 		if (discordToken == null)
 		{
 			discordToken = JOptionPane.showInputDialog(null, ""
-					+ "To login you'll need your discord token\n"
-					+ "To get the token (in google chrome)\n"
-					+ "Login to discord (webpage)\n"
-					+ "Right click 'Inspect Elements'\n"
-					+ "Click the 'Application' tab\n"
-					+ "Local Storage -> https://discordapp.com\n"
-					+ "Copy and paste the token here", "Discord Login", JOptionPane.QUESTION_MESSAGE);
+					+ "To proceed you need to get a discord token\n"
+					+ "you can do this in any browser, but i'll explain it for chrome\n"
+					+ "1. Login to discord (website)\n"
+					+ "2. Click the chrome menu\n"
+					+ "3. Click 'more tools'\n"
+					+ "4. Click 'Developer tools'\n"
+					+ "5. Click the 'Application' tab\n"
+					+ "6. Local Storage -> https://discordapp.com\n"
+					+ "7. Find the 'token' field (you may need to scroll down)\n"
+					+ "8. Copy and paste the token here", "Discord Login", JOptionPane.QUESTION_MESSAGE);
 			if (discordToken == null)
 			{
 				System.exit(0);

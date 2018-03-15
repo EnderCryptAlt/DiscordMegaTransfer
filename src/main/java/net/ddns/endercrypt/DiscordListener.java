@@ -152,7 +152,7 @@ public class DiscordListener extends ListenerAdapter
 
 			String jsonRoot = gson.toJson(root);
 			String base64Json = Base64.getEncoder().encodeToString(jsonRoot.getBytes());
-			Message message = channel.sendMessage(headerString + base64Json + "\n\nIf you have " + DiscordTransmissionWizard.name + " installed and running, press the :FileFolder: " + fileFolderEmoji + " emote reaction").complete();
+			Message message = channel.sendMessage(headerString + base64Json + "\n\n" + channel.getUser().getAsMention() + " if you have " + DiscordTransmissionWizard.name + " installed and running, press the :FileFolder: " + fileFolderEmoji + " emote reaction").complete();
 			message.addReaction(fileFolderEmoji).complete();
 		}
 		catch (IOException e)
