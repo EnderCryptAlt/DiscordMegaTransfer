@@ -28,7 +28,7 @@ public class DiscordTransmissionWizard
 				+ "Created by EnderCrypt (Magnus Gunnarsson)\n"
 				+ "Version 1.3\n"
 				+ "March 2018\n"
-				+ "Open Source: https://github.com/EnderCryptAlt/DiscordMegaTransfer", DiscordTransmissionWizard.class.getSimpleName(), JOptionPane.INFORMATION_MESSAGE);
+				+ "Open Source: https://github.com/EnderCryptAlt/DiscordTransmissionWizard", DiscordTransmissionWizard.class.getSimpleName(), JOptionPane.INFORMATION_MESSAGE);
 
 		// discord token
 		String discordToken = null;
