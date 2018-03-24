@@ -26,7 +26,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.Message.Attachment;
 import net.dv8tion.jda.core.entities.PrivateChannel;
@@ -50,9 +49,9 @@ public class DiscordListener extends ListenerAdapter
 
 	private static String fileFolderEmoji = "📁";
 
-	public DiscordListener(Discord discord)
+	public DiscordListener(@SuppressWarnings("unused") Discord discord)
 	{
-		JDA jda = discord.getJda();
+		// do nothing
 	}
 
 	@Override
@@ -93,7 +92,7 @@ public class DiscordListener extends ListenerAdapter
 		}
 	}
 
-	private void compressFile(File input, File output) throws ZipException
+	private static void compressFile(File input, File output) throws ZipException
 	{
 		ZipParameters parameters = new ZipParameters();
 		parameters.setCompressionMethod(Zip4jConstants.COMP_DEFLATE);
@@ -111,7 +110,7 @@ public class DiscordListener extends ListenerAdapter
 		}
 	}
 
-	private void uploadFile(PrivateChannel channel, File file, String filename)
+	private static void uploadFile(PrivateChannel channel, File file, String filename)
 	{
 		JsonObject root = new JsonObject();
 		root.addProperty("version", 1);

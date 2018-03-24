@@ -45,10 +45,10 @@ public class Util
 		fileChooser.setDialogTitle(title);
 		fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		fileChooser.setAcceptAllFileFilterUsed(false);
-		int returnVal = fileChooser.showSaveDialog(null);
+		int returnVal = fileChooser.showOpenDialog(null);
 		if (returnVal == JFileChooser.APPROVE_OPTION)
 		{
-			return Optional.of(fileChooser.getCurrentDirectory());
+			return Optional.of(fileChooser.getSelectedFile());
 		}
 		return Optional.empty();
 	}
